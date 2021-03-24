@@ -1,4 +1,33 @@
 <?
+
+function sortObject( $array, $args = ['date' => 'asc','kbk' => 'asc'] ){
+    usort( $array, function( $a, $b ) use ( $args ){
+        $res = 0;
+
+        $a = (object) $a;
+        $b = (object) $b;
+
+        foreach( $args as $k => $v ){
+            if($k == 'date'){
+                $aValue = strtotime($a->$k);
+                $bValue = strtotime($b->$k);
+            }else{
+                $aValue = $a->$k;
+                $bValue = $b->$k;
+            }
+            if( $aValue == $bValue ) continue;
+
+            $res = ( $aValue < $bValue ) ? -1 : 1;
+            if( $v=='desc' ) $res= -$res;
+            break;
+        }
+
+        return $res;
+    } );
+
+    return $array;
+}
+
 $delimiter = ';';
 
 $csv = file_get_contents('bd.csv');
@@ -23,5 +52,7 @@ foreach ($rows as $row)
         $arData[$arRow['kbk']] = (object)$arRow;
     }
 }
+
+$arData = sortObject($arData);
 
 ?>
