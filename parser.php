@@ -56,3 +56,52 @@ foreach ($rows as $row)
 $arData = sortObject($arData);
 
 ?>
+
+<table>
+    <thead>
+        <tr>
+            <td>
+                Дата
+            </td>
+            <td>
+                КБК
+            </td>
+            <td>
+                Адрес
+            </td>
+            <td>
+                %%
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <?foreach ($arData as $element){?>
+            <tr>
+                <td>
+                    <?=$element->date?>
+                </td>
+                <td>
+                    <?=$element->kbk?>
+                </td>
+                <td>
+                    <?=$element->address?>
+                </td>
+                <td>
+                    <?if($element->count > 1){?>
+                        <?=$element->sum/$element->count?>%
+                        (<?=$element->count?>)
+                    <?}else{?>
+                        <?=$element->sum?>%
+                    <?}?>
+                </td>
+            </tr>
+        <?}?>
+    </tbody>
+</table>
+
+<style>
+    td{
+        border: 1px solid;
+        padding: 5px;
+    }
+</style>
